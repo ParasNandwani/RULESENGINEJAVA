@@ -1,0 +1,21 @@
+import com.droolsrulesengine.droolsrulesengine.model.OrderRequest;
+import com.droolsrulesengine.droolsrulesengine.model.CustomerType;
+global com.droolsrulesengine.droolsrulesengine.model.OrderDiscount orderDiscount;
+
+dialect "mvel"
+
+rule "Age based discount"
+    when
+        OrderRequest(age < 20 || age > 50)
+    then
+        System.out.println("Adding 10 % discount for kids and senior customer");
+        orderDiscount.setDiscount(orderDiscount.getDiscount() + 10);
+end
+
+rule "Customer type based discount - Loyal Customer"
+    when
+        OrderRequest(customerType.getValue == "LOYAL")
+    then
+        System.out.println("Adding 5% Discount for Loyal Customers");
+        orderDiscount.setDiscount(orderDiscount.getDiscount() + 5);
+end
